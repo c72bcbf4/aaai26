@@ -1,0 +1,13 @@
+defaults:
+  - _self_
+  - /models/cnn@cnn: one
+  - /models/gnn@gnn: one
+  - /models/mlp@mlp: one
+
+normalization_cnn: "GroupNorm"
+normalization_gnn: "LayerNorm"
+normalization_mlp: "LayerNorm"
+
+dropout_cnn: 0.0
+dropout_gnn: 0.0
+dropout_mlp: 0.0

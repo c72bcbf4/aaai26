@@ -1,0 +1,53 @@
+defaults:
+  - _self_
+  - agent: prod
+  - environment: trees_sm_3_1
+  - training: prod
+  - override hydra/job_logging: none
+  - override hydra/launcher: custom
+
+output_dir: null
+overrides: null
+batch: 0
+rank: 0
+
+hydra:
+  run:
+    dir: outputs/run-${now:%Y-%m-%d-%H-%M-%S}
+  sweep:
+    dir: outputs/sweep-${now:%Y-%m-%d-%H-%M-%S}
+  launcher:
+    mode: submit
+    strict: true
+    batch_size: 1
+    conf:
+      slurm_job_name: "some-name"
+      slurm_nodes: 1
+      slurm_mem: "0"
+      slurm_tasks_per_node: 4
+      slurm_time: "24:00:00"
+      slurm_cpus_per_task: 16
+      slurm_account: "some-account"
+      slurm_partition: "some-partition"
+      slurm_gres: "gpu:4"
+  sweeper:
+    params:
+      environment: "\
+        trees_sm_1_1,trees_sm_1_3,trees_sm_1_5,\
+        trees_sm_3_1,trees_sm_3_3,trees_sm_3_5,\
+        trees_sm_5_1,trees_sm_5_3,trees_sm_5_5,\
+        qm9\
+        "
+      models/cnn@agent.cnn: one
+      models/gnn@agent.gnn: one
+      models/mlp@agent.mlp: two
+      training.label_smoothing: 0.01
+      training.cache_size: 25_000
+      training.lr: 5e-4
+      training.weight_decay: 0.0
+      training.batch_size: 1024
+      training.samples_per_epoch: 1_000_000
+      training.evals_per_epoch: 100
+      training.lr_cycle: 250_000_000
+      training.lr_warmup: 50_000_000
+      training.lr_factor: 10

@@ -1,0 +1,15 @@
+epochs: 1_000_000
+samples_per_epoch: 10_000
+evals_per_epoch: 16
+batch_size: 1024
+weight_decay: 0.0
+lr: 1e-3
+lr_cycle: 10_000
+lr_warmup: 1_000
+lr_factor: 10
+max_grad_norm: 1.0
+cache_size: 10_000
+cache_warmup: 100
+image_size: 256
+image_warmup: 10_000_000
+label_smoothing: 0.0

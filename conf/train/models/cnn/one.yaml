@@ -1,0 +1,19 @@
+layers: [
+  { "type": "conv", "channels": 128, "kernel": 7, stride: 4 },
+  
+  { "type": "conv", "channels": 128, "kernel": 1, stride: 1 },
+  { "type": "skip", "channels": 128, "kernel": 3, stride: 1 },
+  { "type": "skip", "channels": 128, "kernel": 3, stride: 1 },
+  { "type": "hidden-pool", "kind": "mean" },
+  
+  { "type": "conv", "channels": 128, "kernel": 1, stride: 1 },
+  { "type": "skip", "channels": 128, "kernel": 3, stride: 1 },
+  { "type": "skip", "channels": 128, "kernel": 3, stride: 1 },
+  { "type": "hidden-pool", "kind": "mean" },
+
+  { "type": "conv", "channels": 256, "kernel": 1, stride: 1 },
+  { "type": "skip", "channels": 256, "kernel": 3, stride: 1 },
+  { "type": "skip", "channels": 256, "kernel": 3, stride: 1 },
+
+  { "type": "global-pool", "kind": "mean" },
+]

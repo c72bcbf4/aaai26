@@ -1,0 +1,8 @@
+hidden_size: 256
+out_size: null
+num_layers: 3
+degree_embed_dim: 16
+node_embed_dim: 32
+edge_embed_dim: 32
+pooling: "sum"
+jk: "cat"

@@ -1,0 +1,13 @@
+train:
+  _target_: src.data.TreeGenerator
+  min_nodes: 10
+  max_nodes: 15
+  n_node_colors: 1
+  n_edge_colors: 1
+val:
+  _target_: src.data.TreeGenerator
+  min_nodes: 16
+  max_nodes: 16
+  n_node_colors: 1
+  n_edge_colors: 1
+max_node_degree: null

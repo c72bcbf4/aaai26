@@ -1,0 +1,7 @@
+train:
+  _target_: src.data.QM9Generator
+  train: True
+val:
+  _target_: src.data.QM9Generator
+  train: False
+max_node_degree: 4
