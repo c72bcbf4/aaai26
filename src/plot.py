@@ -85,7 +85,7 @@ def plot_training(logs, y_true, y_pred, directory, overrides):
                 "duration_plot",
             ]
         ]
-        buffer_sps = df[["buffer_sps_uni", "buffer_sps_hard"]]
+        buffer_sps = df[["buffer_sps"]]
         buffer_size = df[["buffer_size_pos", "buffer_size_neg"]]
         buffer_gpi = df[["buffer_gpi"]]
         pos_frac = df[["pos_frac_train", "pos_frac_true"]]

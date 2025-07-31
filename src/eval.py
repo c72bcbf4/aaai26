@@ -2,6 +2,7 @@ import itertools
 import math
 import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Dict
 
 import imageio
@@ -35,7 +36,7 @@ class TrajectoryContainer:
 class ModelEvaluator:
     def __init__(
         self,
-        directory: str,
+        directory: str | Path,
         dataset: GraphDataset,
     ):
         self.dataset = dataset
@@ -400,7 +401,7 @@ class ModelEvaluator:
         frame = np.frombuffer(s, np.uint8).reshape((height, width, 4))
         return frame
 
-    def plot(self, filename: str, trajectory: TrajectoryContainer):
+    def plot(self, filename: str | Path, trajectory: TrajectoryContainer):
         npt = 25
         nt = math.ceil(min(len(trajectory.steps[-1][1]), self.max_entries) / npt)
 

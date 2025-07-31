@@ -1,0 +1,38 @@
+defaults:
+  - _self_
+  - agent: dev
+  - environment: trees_sm_3_1
+  - training: dev
+  - override hydra/job_logging: none
+  - override hydra/launcher: custom
+
+output_dir: null
+overrides: null
+batch: 0
+rank: 0
+
+hydra:
+  run:
+    dir: outputs/run-${now:%Y-%m-%d-%H-%M-%S}
+  sweep:
+    dir: outputs/sweep-${now:%Y-%m-%d-%H-%M-%S}
+  launcher:
+    mode: submit
+    strict: true
+    batch_size: 1
+    conf:
+      slurm_job_name: "some-name"
+      slurm_nodes: 1
+      slurm_mem: "0"
+      slurm_tasks_per_node: 4
+      slurm_time: "24:00:00"
+      slurm_cpus_per_task: 16
+      slurm_account: "some-account"
+      slurm_partition: "some-partition"
+      slurm_gres: "gpu:4"
+  sweeper:
+    params:
+      environment: qm9
+      models/cnn@agent.cnn: one
+      models/gnn@agent.gnn: one
+      models/mlp@agent.mlp: two

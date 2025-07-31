@@ -170,9 +170,6 @@ def train_epoch(
 
     model.train()
 
-    start = time.time()
-    hard_samples_total = 0
-
     for batch in tqdm(dl, desc="training", **pbar_args):
         batch = dataset.collate(batch)
 
@@ -212,9 +209,6 @@ def train_epoch(
                 lr_scheduler.step()
             except Exception as e:
                 pass
-
-    end = time.time()
-    return hard_samples_total / (end - start)
 
 
 def train(conf: AppConfig):
@@ -287,7 +281,7 @@ def train(conf: AppConfig):
 
             train_start = time.time()
 
-            buffer_sps_hard = train_epoch(
+            train_epoch(
                 fabric,
                 dl,
                 dataset_train,
@@ -303,13 +297,11 @@ def train(conf: AppConfig):
 
             buffer_size_pos = dataset_train.size_pos
             buffer_size_neg = dataset_train.size_neg
-            buffer_sps_uni = dataset_train.sps
+            buffer_sps = dataset_train.sps
 
-            buffer_size_pos, buffer_size_neg, buffer_sps_uni, buffer_sps_hard = (
-                fabric.all_reduce(
-                    [buffer_size_pos, buffer_size_neg, buffer_sps_uni, buffer_sps_hard],
-                    reduce_op=ReduceOp.SUM,
-                )
+            buffer_size_pos, buffer_size_neg, buffer_sps = fabric.all_reduce(
+                [buffer_size_pos, buffer_size_neg, buffer_sps],
+                reduce_op=ReduceOp.SUM,
             )
 
             buffer_gpi = dataset_train.gpi
@@ -354,8 +346,7 @@ def train(conf: AppConfig):
                 "duration_train": (train_end - train_start) / 60,
                 "duration_epoch": (epoch_end - epoch_start) / 60,
                 "duration_eval": (eval_end - eval_start) / 60,
-                "buffer_sps_uni": buffer_sps_uni.item(),
-                "buffer_sps_hard": buffer_sps_hard.item(),
+                "buffer_sps": buffer_sps.item(),
                 "buffer_size_pos": buffer_size_pos.item(),
                 "buffer_size_neg": buffer_size_neg.item(),
                 "buffer_gpi": buffer_gpi.item(),
@@ -380,7 +371,7 @@ def train(conf: AppConfig):
         logger.info("done")
 
         # terminate only if running non-interactively
-        if os.environ.get("SLURM_JOB_NAME", None) == "alphagraph":
+        if os.environ.get("SLURM_JOB_NAME", None) == "some-name":
             logger.error(
                 f"killing job {job_id} due to failure on rank {fabric.global_rank}"
             )
