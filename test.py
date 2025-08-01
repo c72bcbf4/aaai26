@@ -45,13 +45,13 @@ def get_dataset(name):
 
 def get_model(args):
     if args.experiment == "qm9":
-        name = "qm9"
-    else:
-        task, size = args.experiment.split("_")
-        nc = args.NC
-        ec = args.EC
-        size = args.model or size
-        name = f"{task}_{size}_{nc}_{ec}"
+        return "qm9"
+
+    task, size = args.experiment.split("_")
+    nc = args.NC
+    ec = args.EC
+    size = args.model or size
+    name = f"{task}_{size}_{nc}_{ec}"
     return name
 
 
