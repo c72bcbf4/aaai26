@@ -111,7 +111,6 @@ def parse_args() -> CLIArgs:
 def test():
     args = parse_args()
 
-    # for available experiments, see models under results/models
     experiment = get_experiment(args)
 
     tmp_dir = Path("tmp") / experiment
