@@ -6,7 +6,7 @@ from loguru import logger
 CONFIGURED = False
 
 
-def configure_logging(filename, rank=0, level="INFO"):
+def configure_logging(filename=None, rank=0, level="INFO"):
     global CONFIGURED
 
     if CONFIGURED:
@@ -29,7 +29,8 @@ def configure_logging(filename, rank=0, level="INFO"):
     args = {"format": fmt, "level": level}
     logger.remove(0)
     logger.add(sys.stdout, **args)
-    logger.add(filename, **args)
+    if filename is not None:
+        logger.add(filename, **args)
 
     if rank is not None:
         logger.configure(extra={"rank": rank})
