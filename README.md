@@ -24,6 +24,7 @@ source .venv/bin/activate
 We provide our models under [results/models](results/models).
 [test.py](test.py) is a small CLI wrapper for all experiments which
 can be used as follows.
+Use the `--save` flag for visualization of the results.
 
 `trees_sm` is configured for graphs with 6-9 nodes and `trees_lg`
 is configured for graphs with 10-15 nodes. 
